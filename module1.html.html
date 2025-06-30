@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Module 1 – Data Management & Descriptive Analysis | STATATOUS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      line-height: 1.6;
+      background: #f8fafc;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(135deg, #1a3a8f 0%, #0d2352 100%);
+      color: #fff;
+      padding: 3rem 1rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none" opacity="0.05"><path d="M30 10L10 30M90 70L70 90M70 10L90 30M30 90L10 70M50 10L10 50M90 50L50 90M50 10L90 50M10 50L50 90" stroke="white" stroke-width="1"/></svg>');
+    }
+    .header-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .logo {
+      height: 60px;
+      margin-right: 1rem;
+    }
+    .logo-text {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .logo-subtext {
+      font-size: 0.9rem;
+      font-weight: 400;
+      margin-top: 0.3rem;
+      color: rgba(255,255,255,0.9);
+    }
+    nav {
+      background: #0d2352;
+      padding: 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    nav a {
+      color: #fff;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #4fc3f7;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #4fc3f7;
+      transition: width 0.3s ease;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    footer {
+      background: #0d2352;
+      color: #fff;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      color: #1a3a8f;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: white;
+    }
+    h2 {
+      font-size: 1.7rem;
+      margin: 2.5rem 0 1.5rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: #4fc3f7;
+    }
+    h3 {
+      font-size: 1.3rem;
+      margin: 2rem 0 1rem;
+      color: #2c5282;
+    }
+    p {
+      margin-bottom: 1.5rem;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+    ul, ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    li {
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+    a {
+      color: #1a3a8f;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+    a:hover {
+      color: #4fc3f7;
+      text-decoration: underline;
+    }
+    .btn {
+      display: inline-block;
+      background: linear-gradient(to right, #1a3a8f, #4fc3f7);
+      color: #fff;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      margin-top: 1rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(31, 100, 255, 0.2);
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+    }
+    .btn:hover {
+      background: linear-gradient(to right, #4fc3f7, #1a3a8f);
+      box-shadow: 0 6px 20px rgba(31, 100, 255, 0.3);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #1a3a8f;
+      color: #1a3a8f;
+      box-shadow: none;
+    }
+    .btn-outline:hover {
+      background: #1a3a8f;
+      color: white;
+    }
+    .week-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .week-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .week-card h3 {
+      color: #1a3a8f;
+      margin-top: 0;
+    }
+    .lesson {
+      background: #f5f9ff;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      border-left: 3px solid #4fc3f7;
+    }
+    .lesson strong {
+      color: #1a3a8f;
+    }
+    .tint {
+      background: #e6f2ff;
+    }
+    .module-overview {
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      margin: 0 0.5rem;
+      transition: all 0.3s ease;
+    }
+    .social-link:hover {
+      background: #4fc3f7;
+      transform: translateY(-3px);
+    }
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+      nav a {
+        margin: 0 0.5rem;
+        font-size: 0.8rem;
+      }
+      .logo-text {
+        font-size: 1.3rem;
+      }
+      .logo {
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo-container">
+        <img src="https://raw.githubusercontent.com/wems1987/bruce-research-site/main/a-logo-design-featuring-the-text-biostat_0jPMt_BmSU-dlLeGX8RH7w_0IgxqTSkRLuCPe-eDQWwGA.jpeg" alt="STATATOUS Logo" class="logo">
+        <div>
+          <div class="logo-text">STATATOUS</div>
+          <div class="logo-subtext">Biostatistics & Health Research Consultancy</div>
+        </div>
+      </div>
+      <h1>Module 1: Data Management & Descriptive Analysis in R</h1>
+      <a href="index.html" class="btn">← Back to Home</a>
+    </div>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="module1.html" style="color: #4fc3f7;">Module 1</a>
+    <a href="module2.html">Module 2</a>
+    <a href="module3.html">Module 3</a>
+    <a href="#week1">Week 1</a>
+    <a href="#week2">Week 2</a>
+    <a href="#week3">Week 3</a>
+    <a href="#week4">Week 4</a>
+    <a href="#week5">Week 5</a>
+  </nav>
+
+  <div class="container">
+    <div class="module-overview">
+      <h2>Module Overview</h2>
+      <p>This foundational module provides essential skills in data management and descriptive analysis using R. You'll learn how to properly structure, clean, and analyze datasets while understanding key research methodology concepts.</p>
+      <p><strong>Price:</strong> 20,000 FCFA ($25)</p>
+      <p><strong>Duration:</strong> 5 weeks (2 lessons per week + live sessions)</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSe0eIY9h_mNPEZ1MCybLwLuPXHL5iIJB1BL-3maPaq65Ie3pQ/viewform?usp=header" target="_blank" rel="noopener" class="btn">Register for Module 1</a>
+    </div>
+
+    <div class="week-card" id="week1">
+      <h2>Week 1: Research Methodology Basics</h2>
+      <p>Establish a strong foundation in research methodology concepts that inform data collection and analysis.</p>
+      
+      <div class="lesson">
+        <h3>Lesson 1: Study Population and Sampling – Sample Size Calculation</h3>
+        <ul>
+          <li>Understanding target populations and sampling frames</li>
+          <li>Probability and non-probability sampling techniques</li>
+          <li>Calculating sample sizes for different study designs</li>
+          <li>Practical exercises in sample size determination</li>
+        </ul>
+      </div>
+      
+      <div class="lesson">
+        <h3>Lesson 2: Variables and Study Types</h3>
+        <ul>
+          <li>Classification of variables (qualitative, quantitative)</li>
+          <li>Measurement scales (nominal, ordinal, interval, ratio)</li>
+          <li>Overview of study designs (cross-sectional, case-control, cohort)</li>
+          <li>Matching study designs to research questions</li>
+        </ul>
+      </div>
+      
+      <div class="lesson tint">
+        <h3>Live Session 1: Week 1 Recap & Discussion</h3>
+        <ul>
+          <li>Q&A on sampling and study design concepts</li>
+          <li>Case study analysis</li>
+          <li>Practical problem-solving exercises</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="week-card" id="week2">
+      <h2>Week 2: Data Management 1</h2>
+      <p>Introduction to R and RStudio with focus on proper data structure and organization.</p>
+      
+      <div class="lesson">
+        <h3>Lesson 3: Getting Started with R: RStudio Interface and R Language</h3>
+        <ul>
+          <li>Installing R and RStudio</li>
+          <li>Navigating the RStudio environment</li>
+          <li>Basic R syntax and commands</li>
+          <li>Working with R scripts and projects</li>
+        </ul>
+      </div>
+      
+      <div class="lesson">
+        <h3>Lesson 4: Structuring a Dataset in R</h3>
+        <ul>
+          <li>Importing data from various formats (CSV, Excel, SPSS)</li>
+          <li>Understanding data frames in R</li>
+          <li>Variable types and data structures</li>
+          <li>Basic data exploration functions</li>
+        </ul>
+      </div>
+      
+      <div class="lesson tint">
+        <h3>Live Session 2: Week 2 Recap & Discussion</h3>
+        <ul>
+          <li>Troubleshooting common R installation issues</li>
+          <li>Data import challenges and solutions</li>
+          <li>Hands-on data structuring exercises</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="week-card" id="week3">
+      <h2>Week 3: Data Management 2</h2>
+      <p>Advanced data management techniques for preparing analysis-ready datasets.</p>
+      
+      <div class="lesson">
+        <h3>Lesson 5: Creating New Variables and Restructuring Existing Ones</h3>
+        <ul>
+          <li>Derived variables and recoding</li>
+          <li>Date and time variables</li>
+          <li>Factor variables and levels</li>
+          <li>Data transformation techniques</li>
+        </ul>
+      </div>
+      
+      <div class="lesson">
+        <h3>Lesson 6: Handling Missing, Aberrant, and Duplicate Data</h3>
+        <ul>
+          <li>Identifying and classifying missing data</li>
+          <li>Strategies for handling missing values</li>
+          <li>Detecting and addressing outliers</li>
+          <li>Identifying and managing duplicate records</li>
+        </ul>
+      </div>
+      
+      <div class="lesson tint">
+        <h3>Live Session 3: Week 3 Recap & Discussion</h3>
+        <ul>
+          <li>Case studies in data cleaning</li>
+          <li>Best practices for documenting data management</li>
+          <li>Hands-on data cleaning exercises</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="week-card" id="week4">
+      <h2>Week 4: Descriptive Analyses 1</h2>
+      <p>Techniques for summarizing and visualizing qualitative data.</p>
+      
+      <div class="lesson">
+        <h3>Lesson 7: Describing Qualitative Variables in R: Tables and Bar Charts</h3>
+        <ul>
+          <li>Frequency tables and proportions</li>
+          <li>Cross-tabulations</li>
+          <li>Bar chart construction and interpretation</li>
+          <li>Customizing visualizations</li>
+        </ul>
+      </div>
+      
+      <div class="lesson">
+        <h3>Lesson 8: Describing Qualitative Variables in R: Pie Charts and Donut Charts</h3>
+        <ul>
+          <li>When to use pie/donut charts</li>
+          <li>Creating effective categorical visualizations</li>
+          <li>Color selection and labeling</li>
+          <li>Alternatives to pie charts</li>
+        </ul>
+      </div>
+      
+      <div class="lesson tint">
+        <h3>Live Session 4: Week 4 Recap & Discussion</h3>
+        <ul>
+          <li>Data visualization principles</li>
+          <li>Choosing appropriate visualizations</li>
+          <li>Hands-on visualization exercises</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="week-card" id="week5">
+      <h2>Week 5: Descriptive Analyses 2</h2>
+      <p>Techniques for summarizing and visualizing quantitative data.</p>
+      
+      <div class="lesson">
+        <h3>Lesson 9: Describing Quantitative Variables: Histogram, Box Plot, Normality Test</h3>
+        <ul>
+          <li>Measures of central tendency and dispersion</li>
+          <li>Histograms and density plots</li>
+          <li>Box plots and violin plots</li>
+          <li>Assessing normality</li>
+        </ul>
+      </div>
+      
+      <div class="lesson">
+        <h3>Lesson 10: Sample Size on R & Final Skills Synthesis</h3>
+        <ul>
+          <li>Implementing sample size calculations in R</li>
+          <li>Power analysis</li>
+          <li>Comprehensive case study</li>
+          <li>Module summary and next steps</li>
+        </ul>
+      </div>
+      
+      <div class="lesson tint">
+        <h3>Live Session 5: Recap and Final Discussion</h3>
+        <ul>
+          <li>Module review</li>
+          <li>Q&A session</li>
+          <li>Practical application scenarios</li>
+          <li>Certificate requirements</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin: 3rem 0;">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSe0eIY9h_mNPEZ1MCybLwLuPXHL5iIJB1BL-3maPaq65Ie3pQ/viewform?usp=header" target="_blank" rel="noopener" class="btn">Enroll in Module 1 Now</a>
+      <p style="margin-top: 1rem;">Limited spaces available for the 2025 cohort</p>
+    </div>
+  </div>
+
+  <footer>
+    <div class="logo-container" style="margin-bottom: 1.5rem;">
+      <img src="https://raw.githubusercontent.com/wems1987/bruce-research-site/main/a-logo-design-featuring-the-text-biostat_0jPMt_BmSU-dlLeGX8RH7w_0IgxqTSkRLuCPe-eDQWwGA.jpeg" alt="STATATOUS Logo" class="logo" style="height: 50px;">
+      <div>
+        <div class="logo-text">STATATOUS</div>
+        <div class="logo-subtext">Biostatistics & Health Research Consultancy</div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a href="#" class="social-link">📱</a>
+      <a href="#" class="social-link">💻</a>
+      <a href="#" class="social-link">📧</a>
+      <a href="#" class="social-link">🔗</a>
+    </div>
+    <p style="margin-top: 1.5rem;">© 2025 STATATOUS Biostatistics & Health Research Consultancy. All rights reserved.</p>
+  </footer>
+</body>
+</html>

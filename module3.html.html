@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Module 3 – Survival Analysis & Cox Model | STATATOUS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      line-height: 1.6;
+      background: #f8fafc;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(135deg, #1a3a8f 0%, #0d2352 100%);
+      color: #fff;
+      padding: 3rem 1rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none" opacity="0.05"><path d="M30 10L10 30M90 70L70 90M70 10L90 30M30 90L10 70M50 10L10 50M90 50L50 90M50 10L90 50M10 50L50 90" stroke="white" stroke-width="1"/></svg>');
+    }
+    .header-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .logo {
+      height: 60px;
+      margin-right: 1rem;
+    }
+    .logo-text {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .logo-subtext {
+      font-size: 0.9rem;
+      font-weight: 400;
+      margin-top: 0.3rem;
+      color: rgba(255,255,255,0.9);
+    }
+    nav {
+      background: #0d2352;
+      padding: 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    nav a {
+      color: #fff;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #4fc3f7;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #4fc3f7;
+      transition: width 0.3s ease;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    footer {
+      background: #0d2352;
+      color: #fff;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      color: #1a3a8f;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: white;
+    }
+    h2 {
+      font-size: 1.7rem;
+      margin: 2.5rem 0 1.5rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: #4fc3f7;
+    }
+    h3 {
+      font-size: 1.3rem;
+      margin: 2rem 0 1rem;
+      color: #2c5282;
+    }
+    p {
+      margin-bottom: 1.5rem;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+    ul, ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    li {
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+    a {
+      color: #1a3a8f;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+    a:hover {
+      color: #4fc3f7;
+      text-decoration: underline;
+    }
+    .btn {
+      display: inline-block;
+      background: linear-gradient(to right, #1a3a8f, #4fc3f7);
+      color: #fff;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      margin-top: 1rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(31, 100, 255, 0.2);
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+    }
+    .btn:hover {
+      background: linear-gradient(to right, #4fc3f7, #1a3a8f);
+      box-shadow: 0 6px 20px rgba(31, 100, 255, 0.3);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #1a3a8f;
+      color: #1a3a8f;
+      box-shadow: none;
+    }
+    .btn-outline:hover {
+      background: #1a3a8f;
+      color: white;
+    }
+    .week-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .week-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .week-card h3 {
+      color: #1a3a8f;
+      margin-top: 0;
+    }
+    .lesson {
+      background: #f5f9ff;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      border-left: 3px solid #4fc3f7;
+    }
+    .lesson strong {
+      color: #1a3a8f;
+    }
+    .tint {
+      background: #e6f2ff;
+    }
+    .module-overview {
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      margin: 0 0.5rem;
+      transition: all 0.3s ease;
+    }
+    .social-link:hover {
+      background: #4fc3f7;
+      transform: translateY(-3px);
+    }
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+      nav a {
+        margin: 0 0.5rem;
+        font-size: 0.8rem;
+      }
+      .logo-text {
+        font-size: 1.3rem;
+      }
+      .logo {
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo-container">
+        <img src="https://raw.githubusercontent.com/wems1987/bruce-research-site/main/a-logo-design-featuring-the-text-biostat_0jPMt_BmSU-dlLeGX8RH7w_0IgxqTSkRLuCPe-eDQWwGA.jpeg" alt="STATATOUS Logo" class="logo">
+        <div>
+          <div class="logo-text">STATATOUS</div>
+          <div class="logo-subtext">Biostatistics & Health Research Consultancy</div>
+        </div>
+      </div>
+      <h1>Module 3: Survival Analysis &amp; Cox Model</h1>
+      <a href="index.html" class="btn">← Back to Home</a>
+    </div>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="module1.html">Module 1</a>
+    <a href="module2.html">Module 2</a>
+    <a href="module3.html" style="color: #4fc3f7;">Module 3</a>
+    <a href="#week1">Week 1</a>
+    <a href="#week2">Week 2</a>
+    <a href="#week3">Week 3</a>
+    <a href="#week4">Week 4</a>
+  </nav>
+
+  <div class="container">
+    <div class="module-overview">
+      <h2>Module Overview</h2>
+      <p>This advanced module covers survival analysis techniques including the Kaplan-Meier estimator and Cox proportional hazards model, essential for time-to-event data analysis in medical and health research.</p>
+      <p><strong>Prerequisite:</strong> Completion of Modules 1 & 2 or equivalent knowledge</p>
+      <p><strong>Price:</strong> 30,000 FCFA ($30)</p>
+      <p><strong>Duration:</strong> 4 weeks (2 lessons per week + live sessions)</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSe0eIY9h_mNPEZ1MCybLwLuPXHL5iIJB1BL-3maPaq65Ie3pQ/viewform?usp=header" target="_blank" rel="noopener" class="btn">Register for Module 3</a>
+    </div>
+
+    <div class="week-card" id="week1">
+      <h2>Week 1: Theoretical Foundations of Survival Analysis</h2>
+      <p>Establish the conceptual framework for analyzing time-to-event data in health research.</p>
+      
+      <div class="lesson">
+        <h3>Lesson 1: Types of Studies and Survival Analysis Basics</h3>
+        <ul>
+          <li>Understanding censoring in survival data</li>
+          <li>Key concepts: survival function, hazard function</li>
+          <li>Applications in clinical trials and cohort studies</li>
+          <li>Common pitfalls in survival analysis</li>
+        </ul>
+      </div>
+      
+      <div class="lesson">
+        <h3>Lesson 2: Survival Function and Kaplan-Meier Estimator</h3>
+        <ul>
+          <li>Non-parametric estimation of survival curves</li>
+          <li>Calculating survival probabilities</li>
+          <li>Interpreting Kaplan-Meier plots</li>
+          <li>Confidence intervals for survival estimates</li>
+        </ul>
+      </div>
+      
+      <div class="lesson tint">
+        <h3>Live Session 1: Summary and Discussion</h3>
+        <ul>
+          <li>Q&A on survival analysis concepts</li>
+          <li>Case studies in medical research</li>
+          <li>Practical exercises in study design</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="week-card" id="week2">
+      <h2>Week 2: Survival Analysis Theory — Practical in R</h2>
+      <p>Implement survival analysis techniques using R with real-world datasets.</p>
+      
+      <div class="lesson">
+        <h3>Lesson 3: Managing Dates in R</h3>
+        <ul>
+          <li>Date formats and conversions in R</li>
+          <li>Calculating time intervals</li>
+          <li>Handling time-dependent covariates</li>
+          <li>Data cleaning for survival analysis</li>
+        </ul>
+      </div>
+      
+      <div class="lesson">
+        <h3>Lesson 4: Kaplan-Meier Estimator Implementation in R</h3>
+        <ul>
+          <li>Using the survival package in R</li>
+          <li>Creating survival objects</li>
+          <li>Generating and customizing Kaplan-Meier plots</li>
+          <li>Comparing survival curves visually</li>
+        </ul>
+      </div>
+      
+      <div class="lesson tint">
+        <h3>Live Session 2: Summary and Discussion</h3>
+        <ul>
+          <li>Troubleshooting date handling issues</li>
+          <li>Best practices for survival data visualization</li>
+          <li>Hands-on coding exercises</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="week-card" id="week3">
+      <h2>Week 3: Bivariate Analysis: Log-Rank Test and Interpretation</h2>
+      <p>Compare survival distributions between groups and interpret results.</p>
+      
+      <div class="lesson">
+        <h3>Lesson 5: Log-Rank Test Basics and Assumptions</h3>
+        <ul>
+          <li>When to use the log-rank test</li>
+          <li>Understanding the test statistic</li>
+          <li>Checking proportional hazards assumption</li>
+          <li>Alternatives when assumptions are violated</li>
+        </ul>
+      </div>
+      
+      <div class="lesson">
+        <h3>Lesson 6: Log-Rank Test and Plot Application in R</h3>
+        <ul>
+          <li>Implementing the log-rank test in R</li>
+          <li>Stratified survival analysis</li>
+          <li>Creating publication-quality survival plots</li>
+          <li>Interpreting and reporting results</li>
+        </ul>
+      </div>
+      
+      <div class="lesson tint">
+        <h3>Live Session 3: Summary and Discussion</h3>
+        <ul>
+          <li>Case study analysis</li>
+          <li>Common mistakes in log-rank testing</li>
+          <li>Practical interpretation exercises</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="week-card" id="week4">
+      <h2>Week 4: Multivariate Analysis: Cox Proportional Hazards Model</h2>
+      <p>Master the Cox regression model for analyzing multiple predictors of survival.</p>
+      
+      <div class="lesson">
+        <h3>Lesson 7: Cox Model Basics and Assumptions</h3>
+        <ul>
+          <li>Cox model formulation and interpretation</li>
+          <li>Understanding hazard ratios</li>
+          <li>Checking proportional hazards assumption</li>
+          <li>Handling time-dependent covariates</li>
+        </ul>
+      </div>
+      
+      <div class="lesson">
+        <h3>Lesson 8: Cox Model Application and Interpretation in R</h3>
+        <ul>
+          <li>Fitting Cox models in R</li>
+          <li>Model selection strategies</li>
+          <li>Visualizing Cox model results</li>
+          <li>Writing up results for publication</li>
+        </ul>
+      </div>
+      
+      <div class="lesson tint">
+        <h3>Live Session 4: Summary and Discussion</h3>
+        <ul>
+          <li>Comprehensive case study</li>
+          <li>Model diagnostics and validation</li>
+          <li>Final Q&A and module wrap-up</li>
+          <li>Certificate requirements</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin: 3rem 0;">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSe0eIY9h_mNPEZ1MCybLwLuPXHL5iIJB1BL-3maPaq65Ie3pQ/viewform?usp=header" target="_blank" rel="noopener" class="btn">Enroll in Module 3 Now</a>
+      <p style="margin-top: 1rem;">Limited spaces available for the 2025 cohort</p>
+    </div>
+  </div>
+
+  <footer>
+    <div class="logo-container" style="margin-bottom: 1.5rem;">
+      <img src="https://raw.githubusercontent.com/wems1987/bruce-research-site/main/a-logo-design-featuring-the-text-biostat_0jPMt_BmSU-dlLeGX8RH7w_0IgxqTSkRLuCPe-eDQWwGA.jpeg" alt="STATATOUS Logo" class="logo" style="height: 50px;">
+      <div>
+        <div class="logo-text">STATATOUS</div>
+        <div class="logo-subtext">Biostatistics & Health Research Consultancy</div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a href="#" class="social-link">📱</a>
+      <a href="#" class="social-link">💻</a>
+      <a href="#" class="social-link">📧</a>
+      <a href="#" class="social-link">🔗</a>
+    </div>
+    <p style="margin-top: 1.5rem;">© 2025 STATATOUS Biostatistics & Health Research Consultancy. All rights reserved.</p>
+  </footer>
+</body>
+</html>

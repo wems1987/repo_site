@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>STATATOUS | Biostatistics & Health Research Consultancy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      line-height: 1.6;
+      background: #f8fafc;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(135deg, #1a3a8f 0%, #0d2352 100%);
+      color: #fff;
+      padding: 3rem 1rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none" opacity="0.05"><path d="M30 10L10 30M90 70L70 90M70 10L90 30M30 90L10 70M50 10L10 50M90 50L50 90M50 10L90 50M10 50L50 90" stroke="white" stroke-width="1"/></svg>');
+    }
+    .header-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .logo {
+      height: 80px;
+      margin-right: 1rem;
+    }
+    .logo-text {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 2rem;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .logo-subtext {
+      font-size: 1rem;
+      font-weight: 400;
+      margin-top: 0.5rem;
+      color: rgba(255,255,255,0.9);
+    }
+    nav {
+      background: #0d2352;
+      padding: 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    nav a {
+      color: #fff;
+      margin: 0 1.5rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #4fc3f7;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #4fc3f7;
+      transition: width 0.3s ease;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+    section {
+      padding: 4rem 1rem;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    footer {
+      background: #0d2352;
+      color: #fff;
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      color: #1a3a8f;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: white;
+    }
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: #4fc3f7;
+    }
+    h3 {
+      font-size: 1.5rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      color: #2c5282;
+    }
+    p {
+      margin-bottom: 1.5rem;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+    ul, ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    li {
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+    a {
+      color: #1a3a8f;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+    a:hover {
+      color: #4fc3f7;
+      text-decoration: underline;
+    }
+    .btn {
+      display: inline-block;
+      background: linear-gradient(to right, #1a3a8f, #4fc3f7);
+      color: #fff;
+      padding: 0.9rem 1.8rem;
+      border-radius: 50px;
+      margin-top: 1rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(31, 100, 255, 0.2);
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+    }
+    .btn:hover {
+      background: linear-gradient(to right, #4fc3f7, #1a3a8f);
+      box-shadow: 0 6px 20px rgba(31, 100, 255, 0.3);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #1a3a8f;
+      color: #1a3a8f;
+      box-shadow: none;
+    }
+    .btn-outline:hover {
+      background: #1a3a8f;
+      color: white;
+    }
+    @media (min-width: 768px) {
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: center;
+      }
+    }
+    .tint {
+      background: #e6f2ff;
+    }
+    .avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid rgba(255,255,255,0.2);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin-bottom: 1.5rem;
+    }
+    .hero-text {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      color: rgba(255,255,255,0.9);
+    }
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .highlight {
+      background: #e6f7ff;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .testimonial {
+      font-style: italic;
+      padding: 1.5rem;
+      background: white;
+      border-left: 4px solid #4fc3f7;
+      margin: 2rem 0;
+    }
+    .testimonial-author {
+      font-weight: 600;
+      margin-top: 1rem;
+      font-style: normal;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      margin: 3rem 0;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1a3a8f;
+      margin-bottom: 0.5rem;
+    }
+    .stat-label {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .module-card {
+      border-top: 4px solid #4fc3f7;
+    }
+    .module-card h3 {
+      color: #1a3a8f;
+    }
+    .price {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #1a3a8f;
+      margin: 1rem 0;
+    }
+    .contact-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .contact-icon {
+      margin-right: 1rem;
+      color: #4fc3f7;
+      font-size: 1.2rem;
+      width: 30px;
+      text-align: center;
+    }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      margin: 0 0.5rem;
+      transition: all 0.3s ease;
+    }
+    .social-link:hover {
+      background: #4fc3f7;
+      transform: translateY(-3px);
+    }
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+      h2 {
+        font-size: 1.7rem;
+      }
+      nav a {
+        margin: 0 0.8rem;
+        font-size: 0.85rem;
+      }
+      .logo-text {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo-container">
+        <img src="https://raw.githubusercontent.com/wems1987/bruce-research-site/main/a-logo-design-featuring-the-text-biostat_0jPMt_BmSU-dlLeGX8RH7w_0IgxqTSkRLuCPe-eDQWwGA.jpeg" alt="STATATOUS Logo" class="logo">
+        <div>
+          <div class="logo-text">STATATOUS</div>
+          <div class="logo-subtext">Biostatistics & Health Research Consultancy</div>
+        </div>
+      </div>
+      <img src="https://github.com/wems1987/graph-ai-portfolio_bruce/blob/main/bruce_pic.png?raw=true" alt="Bruce Wembulua Shinga" class="avatar" />
+      <h1>Learn Biostatistics &amp; Research Methods</h1>
+      <p class="hero-text">Join the 2025 cohort: a step-by-step journey into applied health research with R</p>
+      <a class="btn" href="module1.html">Start with Module 1</a>
+    </div>
+  </header>
+
+  <nav>
+    <a href="#welcome">Home</a>
+    <a href="module1.html">Module 1</a>
+    <a href="module2.html">Module 2</a>
+    <a href="module3.html">Module 3</a>
+    <a href="#consultancy">Consultancy</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section id="welcome">
+    <div class="container">
+      <div class="card">
+        <h2>Welcome to STATATOUS Biostatistics Training with R</h2>
+        <p>This training is designed for health professionals and researchers aiming to develop strong skills in data analysis using the R software. As part of STATATOUS's commitment to advancing health research, we provide comprehensive, practical training that bridges the gap between theory and real-world application.</p>
+        
+        <div class="stats">
+          <div class="stat-item">
+            <div class="stat-number">500+</div>
+            <div class="stat-label">Trained Professionals</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">95%</div>
+            <div class="stat-label">Satisfaction Rate</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Comprehensive Modules</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Practical Focus</div>
+          </div>
+        </div>
+
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSe0eIY9h_mNPEZ1MCybLwLuPXHL5iIJB1BL-3maPaq65Ie3pQ/viewform?usp=header" target="_blank" rel="noopener" class="btn">Register Now</a>
+      </div>
+
+      <h3>Why Choose STATATOUS Training?</h3>
+      <p>R is a powerful and flexible tool now essential for data analysis in health research. STATATOUS's program gives you essential skills to use R effectively and unlock new professional opportunities with our unique blend of academic rigor and practical consultancy experience.</p>
+
+      <div class="grid-2">
+        <div class="card module-card">
+          <h3>📚 Structured Learning for Steady Progress</h3>
+          <ul>
+            <li><strong><a href="module1.html">Module 1:</a></strong> Data management and descriptive analysis with R</li>
+            <li><strong><a href="module2.html">Module 2:</a></strong> Bivariate and multivariate analysis with R</li>
+            <li><strong><a href="module3.html">Module 3:</a></strong> Survival analysis and longitudinal data management</li>
+          </ul>
+          <p>Each module builds on the previous one while being accessible to newcomers, following STATATOUS's proven training methodology.</p>
+        </div>
+
+        <div class="card module-card">
+          <h3>💡 What's New in 2025?</h3>
+          <ul>
+            <li>Sampling techniques and sample size calculation using R</li>
+            <li>Health research methodology: study designs and practical applications</li>
+            <li>Enhanced case studies from STATATOUS consultancy projects</li>
+            <li>Interactive data visualization techniques</li>
+          </ul>
+          <p>Our 2025 curriculum incorporates the latest industry practices from our consultancy work.</p>
+        </div>
+      </div>
+
+      <div class="card tint">
+        <h3>Teaching Methodology</h3>
+        <p>STATATOUS combines academic excellence with practical consultancy experience in our teaching approach:</p>
+        <ul>
+          <li><strong>2 recorded lessons/week</strong> (Monday & Thursday) + <strong>1 live session</strong> on Saturdays</li>
+          <li>Live times: 20:00 (Dakar), 21:00 (Kinshasa), 22:00 (Goma)</li>
+          <li>Support materials and recordings shared each week</li>
+          <li>Hands-on learning: practical definitions, minimal theory, applied exercises</li>
+          <li>Real-world case studies from STATATOUS consultancy projects</li>
+        </ul>
+      </div>
+
+      <div class="testimonial">
+        <p>"The STATATOUS training transformed how I approach data analysis in my research. The practical focus and real-world examples from their consultancy work made all the difference in understanding complex concepts."</p>
+        <div class="testimonial-author">— Dr. Aminata Diop, Epidemiologist</div>
+      </div>
+
+      <h3>Module Details</h3>
+      
+      <div class="grid-2">
+        <div class="card">
+          <h4>Module 1: Foundations</h4>
+          <p>Core concepts: study population, sampling techniques, sample size calculation with R, types of studies, variable types, and appropriate visualizations.</p>
+          <p>We'll cover how to:</p>
+          <ul>
+            <li>Structure and clean datasets</li>
+            <li>Create new variables</li>
+            <li>Manage missing data</li>
+            <li>Perform descriptive statistical analysis</li>
+          </ul>
+          <div class="price">20,000 FCFA ($25)</div>
+          <a href="module1.html" class="btn btn-outline">Learn More</a>
+        </div>
+
+        <div class="card">
+          <h4>Module 2: Intermediate Analysis</h4>
+          <p>Building on Module 1, we dive deeper into analytical techniques:</p>
+          <ul>
+            <li>Bivariate analysis methods</li>
+            <li>Regression models</li>
+            <li>Model diagnostics</li>
+            <li>Result interpretation</li>
+          </ul>
+          <div class="price">20,000 FCFA ($25)</div>
+          <a href="module2.html" class="btn btn-outline">Learn More</a>
+        </div>
+      </div>
+
+      <div class="card" style="max-width: 600px; margin: 2rem auto;">
+        <h4>Module 3: Advanced Techniques</h4>
+        <p>For those ready to tackle complex analyses:</p>
+        <ul>
+          <li>Survival analysis</li>
+          <li>Longitudinal data management</li>
+          <li>Advanced visualization</li>
+          <li>Research paper preparation</li>
+        </ul>
+        <div class="price">30,000 FCFA ($30)</div>
+        <a href="module3.html" class="btn btn-outline">Learn More</a>
+      </div>
+
+      <div class="card tint text-center">
+        <h3>Ready to Advance Your Research Skills?</h3>
+        <p>Each module is a standalone training and comes with its own certificate. Register today and join the STATATOUS community of research professionals.</p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSe0eIY9h_mNPEZ1MCybLwLuPXHL5iIJB1BL-3maPaq65Ie3pQ/viewform?usp=header" target="_blank" rel="noopener" class="btn">Register Now</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="consultancy" class="tint">
+    <div class="container">
+      <h2>STATATOUS Consultancy Services</h2>
+      <p>Beyond training, STATATOUS offers professional biostatistics and health research consultancy services to organizations and research teams. Our expertise includes:</p>
+      
+      <div class="grid-2">
+        <div class="card">
+          <h3>Research Design</h3>
+          <ul>
+            <li>Study protocol development</li>
+            <li>Sample size calculation</li>
+            <li>Sampling methodology</li>
+            <li>Data collection instrument design</li>
+          </ul>
+        </div>
+        
+        <div class="card">
+          <h3>Data Analysis</h3>
+          <ul>
+            <li>Statistical analysis plans</li>
+            <li>Advanced modeling</li>
+            <li>Data visualization</li>
+            <li>Result interpretation</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>Manuscript Preparation</h3>
+        <ul>
+          <li>Statistical methods sections</li>
+          <li>Results presentation</li>
+          <li>Journal selection guidance</li>
+          <li>Response to reviewer comments</li>
+        </ul>
+        <a href="#contact" class="btn">Contact Us for Consultancy</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <h2>Contact STATATOUS</h2>
+      
+      <div class="grid-2">
+        <div>
+          <h3>Get in Touch</h3>
+          <div class="contact-info">
+            <div class="contact-icon">📧</div>
+            <div>info@statatous.com</div>
+          </div>
+          <div class="contact-info">
+            <div class="contact-icon">🌐</div>
+            <div>www.statatous.com</div>
+          </div>
+          
+          <h3 style="margin-top: 2rem;">Payment Methods</h3>
+          <div class="contact-info">
+            <div class="contact-icon">🇸🇳</div>
+            <div><strong>Senegal:</strong> Orange Money / Wave at +221 000 000 000</div>
+          </div>
+          <div class="contact-info">
+            <div class="contact-icon">🇨🇩</div>
+            <div><strong>DR Congo:</strong> Airtel Money at +243 000 000 000, MPESA at +243 000 000 001</div>
+          </div>
+        </div>
+        
+        <div>
+          <h3>Send Us a Message</h3>
+          <form>
+            <div style="margin-bottom: 1rem;">
+              <input type="text" placeholder="Your Name" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <input type="email" placeholder="Your Email" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <textarea placeholder="Your Message" rows="5" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+            </div>
+            <button type="submit" class="btn">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="logo-container" style="margin-bottom: 1.5rem;">
+      <img src="https://raw.githubusercontent.com/wems1987/bruce-research-site/main/a-logo-design-featuring-the-text-biostat_0jPMt_BmSU-dlLeGX8RH7w_0IgxqTSkRLuCPe-eDQWwGA.jpeg" alt="STATATOUS Logo" class="logo" style="height: 60px;">
+      <div>
+        <div class="logo-text">STATATOUS</div>
+        <div class="logo-subtext">Biostatistics & Health Research Consultancy</div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a href="#" class="social-link">📱</a>
+      <a href="#" class="social-link">💻</a>
+      <a href="#" class="social-link">📧</a>
+      <a href="#" class="social-link">🔗</a>
+    </div>
+    <p style="margin-top: 1.5rem;">© 2025 STATATOUS Biostatistics & Health Research Consultancy. All rights reserved.</p>
+  </footer>
+</body>
+</html>
